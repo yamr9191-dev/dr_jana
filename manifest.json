@@ -1,0 +1,16 @@
+{
+  "name": "DR:Jana",
+  "short_name": "DR:Jana",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0e0b17",
+  "theme_color": "#171126",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
