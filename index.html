@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,24 +12,34 @@
 <title>DR:Jana</title>
 <style>
 :root{--bg:#0e0b17;--card:#171327;--card2:#211a34;--text:#f7f2ff;--muted:#aaa0ba;--purple:#b982ff;--pink:#f18ac5;--green:#8ee6a4;--blue:#7cc8ff;--danger:#ff7897;--line:#302746;--shadow:0 16px 40px #0006}
-*{box-sizing:border-box}html,body{margin:0;background:radial-gradient(circle at 20% 0,#32234c 0,#0e0b17 45%);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100%}
+
+/* Mobile GPU Hardware Acceleration & Instant Touch Response */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+html,body{margin:0;background:radial-gradient(circle at 20% 0,#32234c 0,#0e0b17 45%);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100%;-webkit-text-size-adjust:100%;overflow-x:hidden}
 body{padding-bottom:90px}.app{max-width:620px;margin:auto;min-height:100vh;padding:18px 16px 30px}
 button,input,textarea,select{font:inherit}button{border:0;color:var(--text);cursor:pointer;outline:none}
 
-/* Smooth Animations */
+/* Super Smooth 60fps Animations for Mobile & PC */
+.row, .card, .tile, .fab, .sheet, .toast, .modal, .view, .day-tab {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(12px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from { opacity: 0; transform: translate3d(0, 12px, 0) scale(0.98); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
 }
 @keyframes popIn {
-  from { opacity: 0; transform: scale(0.92) translateY(20px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+  from { opacity: 0; transform: translate3d(0, 20px, 0) scale(0.92); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
 }
 @keyframes toastSlide {
-  0% { opacity: 0; transform: translate(-50%, 30px) scale(0.88); }
-  15% { opacity: 1; transform: translate(-50%, 0) scale(1); }
-  85% { opacity: 1; transform: translate(-50%, 0) scale(1); }
-  100% { opacity: 0; transform: translate(-50%, -15px) scale(0.95); }
+  0% { opacity: 0; transform: translate3d(-50%, 30px, 0) scale(0.88); }
+  15% { opacity: 1; transform: translate3d(-50%, 0, 0) scale(1); }
+  85% { opacity: 1; transform: translate3d(-50%, 0, 0) scale(1); }
+  100% { opacity: 0; transform: translate3d(-50%, -15px, 0) scale(0.95); }
 }
 @keyframes checkBounce {
   0% { transform: scale(1); }
@@ -45,75 +54,66 @@ button,input,textarea,select{font:inherit}button{border:0;color:var(--text);curs
 
 .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.brand{font-weight:900;font-size:22px;letter-spacing:.2px}.brand span{color:var(--pink)}
 .iconbtn{width:42px;height:42px;border-radius:14px;background:#ffffff0b;border:1px solid var(--line);transition:transform 0.2s, background 0.2s}
-.iconbtn:hover{transform:scale(1.08);background:#ffffff18}
-.iconbtn:active{transform:scale(0.95)}
+.iconbtn:active{transform:scale(0.92)}
 
 .greeting{font-size:28px;font-weight:850;line-height:1.1}.sub{color:var(--muted);margin-top:6px}
-.card{background:linear-gradient(145deg,#1b1630,#131020);border:1px solid var(--line);border-radius:24px;padding:17px;box-shadow:var(--shadow);margin:12px 0;transition:transform 0.25s ease, box-shadow 0.25s ease}
-.card:hover{transform:translateY(-2px);box-shadow:0 20px 45px #0008}
+.card{background:linear-gradient(145deg,#1b1630,#131020);border:1px solid var(--line);border-radius:24px;padding:17px;box-shadow:var(--shadow);margin:12px 0;transition:transform 0.2s ease, box-shadow 0.2s ease}
 
-.progressCard{display:flex;gap:18px;align-items:center}.ring{width:94px;height:94px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--green) calc(var(--p)*1%),#342b46 0);position:relative;flex:none;transition:background 0.5s ease}.ring:after{content:"";position:absolute;inset:8px;background:#151124;border-radius:50%}.ring b{position:relative;z-index:1;font-size:20px}.muted{color:var(--muted)}.small{font-size:12px}.title{font-size:17px;font-weight:800}.sectionHead{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 8px}.sectionHead h2{font-size:17px;margin:0}.link{color:var(--purple);background:none;transition:color 0.2s}.link:hover{color:var(--pink)}
+.progressCard{display:flex;gap:18px;align-items:center}.ring{width:94px;height:94px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--green) calc(var(--p)*1%),#342b46 0);position:relative;flex:none;transition:background 0.4s ease}.ring:after{content:"";position:absolute;inset:8px;background:#151124;border-radius:50%}.ring b{position:relative;z-index:1;font-size:20px}.muted{color:var(--muted)}.small{font-size:12px}.title{font-size:17px;font-weight:800}.sectionHead{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 8px}.sectionHead h2{font-size:17px;margin:0}.link{color:var(--purple);background:none;transition:color 0.2s}
 
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.tile{background:#171327;border:1px solid var(--line);border-radius:18px;padding:13px 8px;text-align:center;min-height:95px;transition:all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)}
-.tile:hover{transform:translateY(-4px) scale(1.02);border-color:var(--purple);box-shadow:0 10px 25px rgba(185,130,255,0.15)}
-.tile:active{transform:scale(0.95)}
+.tile{background:#171327;border:1px solid var(--line);border-radius:18px;padding:13px 8px;text-align:center;min-height:95px;transition:transform 0.2s ease, border-color 0.2s ease}
+.tile:active{transform:scale(0.94);border-color:var(--purple)}
 .tile .ico{font-size:25px}.tile b{display:block;margin-top:5px;font-size:13px}.tile span{font-size:11px;color:var(--muted)}
 
 .list{display:grid;gap:9px}
-.row{display:flex;gap:12px;align-items:center;background:#171327;border:1px solid var(--line);border-radius:17px;padding:12px;animation:fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;transition:transform 0.2s ease, border-color 0.2s ease, background 0.2s ease}
-.row:hover{transform:translateY(-2px);border-color:var(--line);background:#1e1833}
+.row{display:flex;gap:12px;align-items:center;background:#171327;border:1px solid var(--line);border-radius:17px;padding:12px;animation:fadeInUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;transition:transform 0.2s ease, background 0.2s ease}
+.row:active{transform:scale(0.98);background:#1e1833}
 
-.check{width:26px;height:26px;border-radius:8px;border:1px solid #655879;background:transparent;display:grid;place-items:center;flex:none;transition:all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)}
-.check:active{transform:scale(0.82)}
+.check{width:26px;height:26px;border-radius:8px;border:1px solid #655879;background:transparent;display:grid;place-items:center;flex:none;transition:transform 0.2s ease}
+.check:active{transform:scale(0.8)}
 .check.done{background:var(--green);color:#102315;border-color:var(--green);animation:checkBounce 0.3s ease}
 
 .rowmain{min-width:0;flex:1}.rowmain b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rowmain small{color:var(--muted)}
-.danger{color:var(--danger);background:none;padding:6px;border-radius:8px;transition:all 0.2s}.danger:hover{background:rgba(255,120,151,0.15);transform:scale(1.1)}
+.danger{color:var(--danger);background:none;padding:6px;border-radius:8px;transition:transform 0.2s}.danger:active{transform:scale(0.85)}
 
 .priority-badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;margin-left:6px}
 .p-low{background:rgba(142,230,164,0.18);color:var(--green);border:1px solid rgba(142,230,164,0.3)}
 .p-medium{background:rgba(124,200,255,0.18);color:var(--blue);border:1px solid rgba(124,200,255,0.3)}
 .p-high{background:rgba(255,120,151,0.18);color:var(--danger);border:1px solid rgba(255,120,151,0.3)}
 
-.fab{position:fixed;z-index:20;right:calc(50% - min(310px,50vw) + 18px);bottom:76px;width:56px;height:56px;border-radius:19px;background:linear-gradient(135deg,var(--pink),var(--purple));font-size:28px;box-shadow:0 14px 30px #8c57d955;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s}
-.fab:hover{transform:scale(1.1) rotate(90deg);box-shadow:0 18px 36px #8c57d988}
-.fab:active{transform:scale(0.92)}
+.fab{position:fixed;z-index:20;right:calc(50% - min(310px,50vw) + 18px);bottom:76px;width:56px;height:56px;border-radius:19px;background:linear-gradient(135deg,var(--pink),var(--purple));font-size:28px;box-shadow:0 14px 30px #8c57d955;transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1)}
+.fab:active{transform:scale(0.88)}
 
-.nav{position:fixed;z-index:19;bottom:0;left:0;right:0;background:#0f0c18ee;backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:8px max(10px,calc((100vw - 620px)/2 + 10px));display:grid;grid-template-columns:repeat(5,1fr)}
-.nav button{background:none;color:var(--muted);font-size:11px;padding:5px;transition:all 0.2s}
-.nav button:hover{color:var(--text)}
-.nav button.active{color:var(--text);transform:scale(1.05)}
+.nav{position:fixed;z-index:19;bottom:0;left:0;right:0;background:#0f0c18ee;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:8px max(10px,calc((100vw - 620px)/2 + 10px));display:grid;grid-template-columns:repeat(5,1fr)}
+.nav button{background:none;color:var(--muted);font-size:11px;padding:5px;transition:transform 0.15s, color 0.15s}
+.nav button.active{color:var(--text);transform:scale(1.06)}
 .nav i{display:block;font-style:normal;font-size:21px;margin-bottom:2px}
 
-.view{display:none;animation:fadeInUp 0.3s ease-out}.view.active{display:block}
+.view{display:none;animation:fadeInUp 0.25s ease-out}.view.active{display:block}
 .pill{display:inline-flex;padding:5px 9px;border-radius:99px;background:#ffffff0c;color:var(--muted);font-size:11px}
-.bar{height:9px;background:#302840;border-radius:99px;overflow:hidden}.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--purple),var(--pink));border-radius:99px;transition:width 0.4s cubic-bezier(0.16, 1, 0.3, 1)}
+.bar{height:9px;background:#302840;border-radius:99px;overflow:hidden}.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--purple),var(--pink));border-radius:99px;transition:width 0.35s ease}
 
-input,textarea,select{width:100%;background:#100d19;border:1px solid var(--line);border-radius:14px;padding:12px;color:var(--text);outline:none;transition:border-color 0.2s, box-shadow 0.2s}
-input:focus,textarea:focus,select:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(185,130,255,0.2)}
+input,textarea,select{width:100%;background:#100d19;border:1px solid var(--line);border-radius:14px;padding:12px;color:var(--text);outline:none;transition:border-color 0.2s}
+input:focus,textarea:focus,select:focus{border-color:var(--purple)}
 textarea{min-height:110px;resize:vertical}.field{margin:11px 0}.field label{display:block;font-size:12px;color:var(--muted);margin:0 0 6px}
 
-.primary{width:100%;padding:13px;border-radius:14px;background:linear-gradient(135deg,var(--purple),var(--pink));color:#180e24;font-weight:900;transition:transform 0.2s, box-shadow 0.2s}
-.primary:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(185,130,255,0.4)}
-.primary:active{transform:scale(0.97)}
+.primary{width:100%;padding:13px;border-radius:14px;background:linear-gradient(135deg,var(--purple),var(--pink));color:#180e24;font-weight:900;transition:transform 0.15s}
+.primary:active{transform:scale(0.96)}
 
-.secondary{padding:10px 13px;border-radius:12px;background:#ffffff0d;border:1px solid var(--line);transition:all 0.2s}
-.secondary:hover{background:#ffffff1c;transform:translateY(-1px)}
-.secondary:active{transform:scale(0.97)}
+.secondary{padding:10px 13px;border-radius:12px;background:#ffffff0d;border:1px solid var(--line);transition:transform 0.15s}
+.secondary:active{transform:scale(0.96)}
 
-.modal{position:fixed;inset:0;z-index:50;background:#000b;backdrop-filter:blur(6px);display:none;align-items:flex-end;transition:opacity 0.2s}.modal.open{display:flex}
-.sheet{width:100%;max-width:620px;margin:auto;background:#171327;border:1px solid var(--line);border-bottom:0;border-radius:26px 26px 0 0;padding:20px;max-height:90vh;overflow:auto;animation:popIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards}.sheet h3{margin-top:0}
+.modal{position:fixed;inset:0;z-index:50;background:#000b;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:flex-end}.modal.open{display:flex}
+.sheet{width:100%;max-width:620px;margin:auto;background:#171327;border:1px solid var(--line);border-bottom:0;border-radius:26px 26px 0 0;padding:20px;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;animation:popIn 0.3s ease forwards}.sheet h3{margin-top:0}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 
-.toast{position:fixed;z-index:80;left:50%;bottom:145px;transform:translateX(-50%);background:linear-gradient(135deg, #2a203f, #1e1730);border:1px solid var(--purple);padding:12px 18px;border-radius:16px;display:none;white-space:nowrap;box-shadow:0 12px 35px rgba(185,130,255,0.3);backdrop-filter:blur(10px);font-weight:700;font-size:13px;color:#fff;align-items:center;gap:8px}
-.toast.show{display:flex;animation:toastSlide 2.4s cubic-bezier(0.16, 1, 0.3, 1) forwards}
+.toast{position:fixed;z-index:80;left:50%;bottom:145px;transform:translate3d(-50%, 0, 0);background:linear-gradient(135deg, #2a203f, #1e1730);border:1px solid var(--purple);padding:12px 18px;border-radius:16px;display:none;white-space:nowrap;box-shadow:0 12px 35px rgba(185,130,255,0.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-weight:700;font-size:13px;color:#fff;align-items:center;gap:8px}
+.toast.show{display:flex;animation:toastSlide 2.4s ease forwards}
 
-/* Schedule English Day Tabs Saturday to Friday */
-.day-tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 12px;margin-bottom:12px;scrollbar-width:none}
+.day-tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 12px;margin-bottom:12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .day-tabs::-webkit-scrollbar{display:none}
 .day-tab{padding:8px 14px;border-radius:12px;background:#171327;border:1px solid var(--line);color:var(--muted);font-size:12px;font-weight:700;white-space:nowrap;transition:all 0.2s ease;display:inline-flex;align-items:center;gap:6px}
-.day-tab:hover{background:#231c3a;color:var(--text)}
 .day-tab.active{background:linear-gradient(135deg,var(--purple),var(--pink));color:#100a1c;border-color:transparent;box-shadow:0 4px 12px rgba(185,130,255,0.3)}
 .day-tab.is-today{border-color:var(--green);background:rgba(142,230,164,0.12);color:var(--green);animation:pulseGreen 2s infinite}
 .today-tag{background:var(--green);color:#0f0c18;font-size:9px;font-weight:900;padding:2px 6px;border-radius:20px;text-transform:uppercase}
@@ -124,11 +124,9 @@ textarea{min-height:110px;resize:vertical}.field{margin:11px 0}.field label{disp
 .device-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);display:inline-block;margin-right:6px}
 .device-badge{background:rgba(142,230,164,0.15);color:var(--green);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
 
-/* Garden Game Enhanced Styles */
-.plant-card{background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:18px;padding:14px;text-align:center;transition:all 0.25s ease}
-.plant-card:hover{transform:translateY(-3px);background:rgba(255,255,255,0.06);border-color:var(--green)}
-.plant-emoji{font-size:36px;margin-bottom:6px;transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)}
-.plant-card:hover .plant-emoji{transform:scale(1.2) rotate(5deg)}
+.plant-card{background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:18px;padding:14px;text-align:center;transition:transform 0.2s ease}
+.plant-card:active{transform:scale(0.95)}
+.plant-emoji{font-size:36px;margin-bottom:6px}
 
 @media(min-width:600px){.app{padding-top:28px}}
 </style>
@@ -218,27 +216,35 @@ textarea{min-height:110px;resize:vertical}.field{margin:11px 0}.field label{disp
   </section>
 
   <section id="settings" class="view">
-    <div class="greeting">Settings ⚙️</div><div class="sub">Account, sync and app preferences.</div>
+    <div class="greeting">Settings ⚙️</div><div class="sub">Automatic cloud sync and app preferences.</div>
+    
+    <!-- Automatic Sync Card (No Account Required) -->
     <div class="card">
-      <div class="title">Cloud Sync</div>
-      <div class="sub" id="syncStatus">Checking…</div>
-      <div class="two" style="margin-top:12px">
-        <button class="secondary" onclick="openAuth()">Account</button>
-        <button class="secondary" onclick="syncNow()">Sync now</button>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="title">Automatic Sync</div>
+        <span class="device-badge" id="syncBadge">🟢 Live Active</span>
       </div>
+      <div class="sub" id="syncStatus" style="margin-top:6px">Connected & Syncing Automatically</div>
+      
+      <div style="margin-top:14px;background:rgba(0,0,0,0.2);padding:12px;border-radius:14px;border:1px solid var(--line)">
+        <div class="small muted">Sync Code (Share with your other devices):</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+          <b id="syncCodeDisplay" style="color:var(--pink);font-size:16px;letter-spacing:1px">JANA-MAIN-ROOM</b>
+          <button class="secondary" style="padding:6px 12px;font-size:12px" onclick="changeSyncCode()">Change Code 🔑</button>
+        </div>
+      </div>
+      <button class="primary" style="margin-top:12px" onclick="syncNow()">Force Sync Now ⚡</button>
     </div>
 
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <div class="title">Synced Devices</div>
-        <span class="device-badge" id="connectedDeviceCount">0 Active</span>
+        <div class="title">Connected Devices</div>
+        <span class="device-badge" id="connectedDeviceCount">1 Active</span>
       </div>
-      <div id="devicesList" class="list" style="margin-top:10px">
-        <div class="empty" style="padding:10px">Sign in to sync across devices</div>
-      </div>
+      <div id="devicesList" class="list" style="margin-top:10px"></div>
     </div>
 
-    <div class="card"><div class="title">Daily Reset</div><div class="sub">Automatically resets at 12:00 AM every midnight. Previous days move to History.</div></div>
+    <div class="card"><div class="title">Daily Reset</div><div class="sub">Resets automatically at 12:00 AM midnight. Previous days move to History.</div></div>
     <div class="card"><div class="title">About</div><div class="sub">DR:Jana • Plan • Study • Grow</div></div>
   </section>
 </div>
@@ -257,7 +263,6 @@ textarea{min-height:110px;resize:vertical}.field{margin:11px 0}.field label{disp
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
 
 const firebaseConfig = {
@@ -271,10 +276,11 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getDatabase(app);
-let user = null;
 let data = loadLocal();
+
+// Automatic Sync Room Key (Default or Shared)
+let syncKey = localStorage.getItem("drJanaSyncKey") || "JANA-MAIN-ROOM";
 
 // English Schedule Days ordered Saturday -> Friday
 const DAYS = [
@@ -338,6 +344,7 @@ let lastActiveDate = todayKey();
 
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 function blankDay(){return {tasks:[],prayers:{Fajr:false,Dhuhr:false,Asr:false,Maghrib:false,Isha:false},notes:[],classes:[]}}
+
 function loadLocal(){
   try{
     const d = JSON.parse(localStorage.getItem("drJanaData"));
@@ -366,7 +373,6 @@ function progress(){const d=day(), t=d.tasks.length, td=d.tasks.filter(x=>x.done
 function checkDateRollover() {
   const currentDate = todayKey();
   if (currentDate !== lastActiveDate) {
-    // Archive previous day
     archiveTodayKey(lastActiveDate);
     lastActiveDate = currentDate;
     render();
@@ -390,14 +396,15 @@ function render(){
   document.getElementById("tilePrayerSub").textContent=`${pr.p}/5`;
   document.getElementById("tileNotesSub").textContent=`${d.notes.length} notes`;
 
-  // Sorted Tasks: Low Priority First
   const sortedTasks = d.tasks.slice().sort((a,b) => (priorityOrder[a.priority] || 1) - (priorityOrder[b.priority] || 1));
   document.getElementById("homeTasks").innerHTML=sortedTasks.slice(0,4).map(taskHTML).join("")||'<div class="empty">No tasks yet. Tap + to add one.</div>';
 
-  // Strictly Today's Classes on Home Screen
   const todayClasses = d.classes.filter(c => c.dayOfWeek === undefined || Number(c.dayOfWeek) === todayIndex);
   document.getElementById("tileClassesSub").textContent=`${todayClasses.length} today`;
   document.getElementById("homeSchedule").innerHTML=todayClasses.slice().sort((a,b)=>a.time.localeCompare(b.time)).map(classTodayHTML).join("")||'<div class="empty">No classes scheduled for today 🎉</div>';
+
+  const codeEl = document.getElementById("syncCodeDisplay");
+  if(codeEl) codeEl.textContent = syncKey;
 
   renderTasks();renderSchedule();renderPrayer();renderNotes();renderGarden();renderHistory();renderWellness();
 }
@@ -474,7 +481,6 @@ window.setScheduleDay = function(dayId){
 function renderPrayer(){const d=day(), names=["Fajr","Dhuhr","Asr","Maghrib","Isha"], done=Object.values(d.prayers).filter(Boolean).length;document.getElementById("prayerCard").innerHTML=`<div class="statline"><b>${done}/5 completed</b><span class="pill">${pct(done,5)}%</span></div><div class="list" style="margin-top:12px">${names.map(n=>`<div class="row"><button class="check ${d.prayers[n]?'done':''}" onclick="togglePrayer('${n}')">${d.prayers[n]?'✓':''}</button><div class="rowmain"><b>${n}</b><small>Daily prayer</small></div></div>`).join("")}</div>`}
 function renderNotes(){const q=(document.getElementById("noteSearch")?.value||"").toLowerCase(), a=day().notes.filter(n=>(n.title+n.body).toLowerCase().includes(q));document.getElementById("noteList").innerHTML=a.map(n=>`<div class="row"><div>📝</div><div class="rowmain"><b>${esc(n.title)}</b><small>${esc(n.body).slice(0,90)}</small></div><button class="danger" onclick="deleteNote('${n.id}')">✕</button></div>`).join("")||'<div class="empty">No notes found.</div>'}
 
-// Enhanced Garden Game Logic
 function renderGarden(){
   const g = data.garden || {xp:0, level:1, plants:[0,0,0]};
   const need = g.level * 100;
@@ -509,7 +515,7 @@ window.gardenAction = type => {
     toast("Successfully completed ✨ 🧪 (+30 XP)");
   } else if(type === "harvest"){
     g.xp += 50;
-    g.plants = g.plants.map(() => 0); // Reset to seedlings
+    g.plants = g.plants.map(() => 0);
     toast("Successfully completed ✨ 🧺 (+50 XP)");
   }
   
@@ -526,7 +532,6 @@ function renderHistory(){
   const h = data.history || {};
   const keys = Object.keys(h).sort().reverse();
   
-  // Overall History Statistics
   const totalDays = keys.length;
   let avgPct = 0;
   let totalDone = 0;
@@ -630,52 +635,52 @@ window.saveNote=()=>{const title=document.getElementById("nTitle").value.trim(),
 window.deleteNote=id=>{if(!confirmAction("Delete this note?"))return;day().notes=day().notes.filter(x=>x.id!==id);saveLocal();toast("Successfully completed ✨");render();syncNow()};
 window.openSettings=()=>showView("settings");
 
-window.openAuth=()=>openModal(`<h3>Cloud account</h3><div class="field"><label>Email</label><input id="aEmail" type="email" placeholder="you@example.com"></div><div class="field"><label>Password</label><input id="aPass" type="password" placeholder="At least 6 characters"></div><div class="two"><button class="primary" onclick="login()">Sign in</button><button class="secondary" onclick="registerUser()">Create account</button></div><button class="secondary" style="width:100%;margin-top:10px" onclick="logoutUser()">Sign out</button>`);
-window.login=async()=>{try{await signInWithEmailAndPassword(auth,aEmail.value,aPass.value);closeModal();toast("Successfully completed ✨");updateQuote()}catch(e){toast(e.message.replace("Firebase: ",""))}};
-window.registerUser=async()=>{try{await createUserWithEmailAndPassword(auth,aEmail.value,aPass.value);closeModal();toast("Successfully completed ✨");updateQuote()}catch(e){toast(e.message.replace("Firebase: ",""))}};
-window.logoutUser=async()=>{
-  if(user) await remove(ref(db, `users/${user.uid}/devices/${deviceId}`));
-  await signOut(auth);closeModal();toast("Successfully completed ✨")
+// Change Sync Room Code for Linking Specific Devices
+window.changeSyncCode=()=>{
+  const newCode = prompt("Enter a Sync Code to pair devices together:", syncKey);
+  if(newCode && newCode.trim() !== ""){
+    syncKey = newCode.trim().toUpperCase();
+    localStorage.setItem("drJanaSyncKey", syncKey);
+    toast("Sync Room Updated ✨");
+    setupAutomaticRealtimeSync();
+    syncNow();
+    render();
+  }
 };
 
+// Automatic Realtime Device Sync Engine (No Sign-in)
 window.syncNow=async()=>{
-  if(!user) {
-    document.getElementById("syncStatus").textContent="Local mode — sign in to sync across devices.";
-    return;
-  }
   try {
-    await set(ref(db, "users/" + user.uid + "/drJana"), data);
-    document.getElementById("syncStatus").textContent="Cloud sync is on ✓";
+    await set(ref(db, `rooms/${syncKey}/drJana`), data);
+    document.getElementById("syncStatus").textContent = "Connected & Syncing Automatically ✓";
     toast("Successfully completed ✨ (Synced)");
   } catch(e) {
-    document.getElementById("syncStatus").textContent="Sync error: "+e.message;
+    document.getElementById("syncStatus").textContent = "Sync error: " + e.message;
   }
 };
 
-function registerDevice(u) {
-  if(!u) return;
+function registerDevice() {
   const devName = (navigator.userAgentData?.platform || navigator.platform || "Device") + " (" + (navigator.userAgent.includes("Mobile")?"Mobile":"Desktop") + ")";
-  const devRef = ref(db, `users/${u.uid}/devices/${deviceId}`);
+  const devRef = ref(db, `rooms/${syncKey}/devices/${deviceId}`);
   set(devRef, {
     name: devName,
     lastActive: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
   });
 }
 
-function setupRealtimeSync(u) {
-  if(!u) return;
-
-  const dataRef = ref(db, `users/${u.uid}/drJana`);
+function setupAutomaticRealtimeSync() {
+  // Listen for live data updates
+  const dataRef = ref(db, `rooms/${syncKey}/drJana`);
   onValue(dataRef, (snapshot) => {
     if(snapshot.exists()) {
       data = snapshot.val();
       saveLocal();
       render();
-      document.getElementById("syncStatus").textContent = "Cloud sync active (Realtime) ✓";
     }
   });
 
-  const devicesRef = ref(db, `users/${u.uid}/devices`);
+  // Listen for active devices in the same sync room
+  const devicesRef = ref(db, `rooms/${syncKey}/devices`);
   onValue(devicesRef, (snapshot) => {
     const listEl = document.getElementById("devicesList");
     const countEl = document.getElementById("connectedDeviceCount");
@@ -701,20 +706,8 @@ function setupRealtimeSync(u) {
     }
   });
 
-  registerDevice(u);
+  registerDevice();
 }
-
-onAuthStateChanged(auth, u => {
-  user = u;
-  if(u) {
-    document.getElementById("syncStatus").textContent = "Signed in — syncing live…";
-    setupRealtimeSync(u);
-  } else {
-    document.getElementById("syncStatus").textContent = "Local mode — sign in to sync across devices.";
-    document.getElementById("devicesList").innerHTML = '<div class="empty" style="padding:10px">Sign in to sync across devices</div>';
-    document.getElementById("connectedDeviceCount").textContent = '0 Active';
-  }
-});
 
 function archiveTodayKey(k){
   if(!k) k = todayKey();
@@ -740,6 +733,8 @@ window.saveWellness=()=>{const last=periodDate.value,len=Math.max(15,Math.min(60
 document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
 window.closeModal=closeModal;
 
+// Initialize Everything
+setupAutomaticRealtimeSync();
 render();
 updateQuote();
 </script>
