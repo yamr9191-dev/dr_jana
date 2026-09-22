@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,13 +13,13 @@
 <style>
 :root{--bg:#0e0b17;--card:#171327;--card2:#211a34;--text:#f7f2ff;--muted:#aaa0ba;--purple:#b982ff;--pink:#f18ac5;--green:#8ee6a4;--blue:#7cc8ff;--danger:#ff7897;--line:#302746;--shadow:0 12px 30px #0008}
 
-/* Hardware Acceleration & Ultra-Fast Mobile Touch */
+/* Hardware Acceleration & Smooth Touch */
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 html,body{margin:0;background:radial-gradient(circle at 20% 0,#32234c 0,#0e0b17 45%);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100%;-webkit-text-size-adjust:100%;overflow-x:hidden}
 body{padding-bottom:90px}.app{max-width:620px;margin:auto;min-height:100vh;padding:18px 16px 30px}
 button,input,textarea,select{font:inherit}button{border:0;color:var(--text);cursor:pointer;outline:none}
 
-/* Ultra Lightweight Animations for High FPS on Phones */
+/* Ultra Lightweight Animations for High FPS */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translate3d(0, 10px, 0); }
   to { opacity: 1; transform: translate3d(0, 0, 0); }
@@ -238,7 +237,7 @@ textarea{min-height:110px;resize:vertical}.field{margin:11px 0}.field label{disp
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD51jrAFgDX5--lk4qF3YFPo-Ciyu_gZMg",
@@ -253,7 +252,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Global Shared Sync Path
 const SYNC_PATH = "drjana_global_shared_v1";
 
 let data = loadLocal();
@@ -325,19 +323,23 @@ function loadLocal(){
     const d = JSON.parse(localStorage.getItem("drJanaData"));
     return sanitizeData(d);
   }catch{
-    return {days:{},history:{},garden:{xp:0,level:1,plants:[0,0,0]}};
+    return {days:{},history:{},garden:{xp:0,level:1,plants:[0,0,0]}, lastUpdated: Date.now()};
   }
 }
 
-function saveLocal(){localStorage.setItem("drJanaData",JSON.stringify(data))}
+function saveLocal(updateTime = true){
+  if(updateTime) data.lastUpdated = Date.now();
+  localStorage.setItem("drJanaData", JSON.stringify(data));
+}
+
 function day(){if(!data.days[todayKey()])data.days[todayKey()]=blankDay();return data.days[todayKey()]}
 
-// Clean Firebase Data Structure (Prevents Array/Null Bugs)
 function sanitizeData(raw) {
   if(!raw || typeof raw !== 'object') raw = {};
   if(!raw.days || typeof raw.days !== 'object') raw.days = {};
   if(!raw.history || typeof raw.history !== 'object') raw.history = {};
   if(!raw.garden) raw.garden = {xp:0, level:1, plants:[0,0,0]};
+  if(!raw.lastUpdated) raw.lastUpdated = Date.now();
 
   Object.keys(raw.days).forEach(k => {
     const d = raw.days[k];
@@ -368,7 +370,6 @@ function confirmAction(message){return confirm(message)}
 function pct(n,d){return d?Math.round(n/d*100):0}
 function progress(){const d=day(), t=d.tasks.length, td=d.tasks.filter(x=>x.done).length, p=Object.values(d.prayers).filter(Boolean).length; const total=t+5, done=td+p; return {t,td,p,total,done,pct:pct(done,total)}}
 
-// Midnight Date Rollover Check
 function checkDateRollover() {
   const currentDate = todayKey();
   if (currentDate !== lastActiveDate) {
@@ -395,11 +396,9 @@ function render(){
   document.getElementById("tilePrayerSub").textContent=`${pr.p}/5`;
   document.getElementById("tileNotesSub").textContent=`${d.notes.length} notes`;
 
-  // Tasks: Low Priority First
   const sortedTasks = d.tasks.slice().sort((a,b) => (priorityOrder[a.priority] || 1) - (priorityOrder[b.priority] || 1));
   document.getElementById("homeTasks").innerHTML=sortedTasks.slice(0,4).map(taskHTML).join("")||'<div class="empty">No tasks yet. Tap + to add one.</div>';
 
-  // Classes for Today
   const todayClasses = d.classes.filter(c => c.dayOfWeek === undefined || Number(c.dayOfWeek) === todayIndex);
   document.getElementById("tileClassesSub").textContent=`${todayClasses.length} today`;
   document.getElementById("homeSchedule").innerHTML=todayClasses.slice().sort((a,b)=>a.time.localeCompare(b.time)).map(classTodayHTML).join("")||'<div class="empty">No classes scheduled for today 🎉</div>';
@@ -633,13 +632,16 @@ window.saveNote=()=>{const title=document.getElementById("nTitle").value.trim(),
 window.deleteNote=id=>{if(!confirmAction("Delete this note?"))return;day().notes=day().notes.filter(x=>x.id!==id);saveLocal();toast("Successfully completed ✨");render();syncNow()};
 window.openSettings=()=>showView("settings");
 
-// Reliable Firebase Realtime Push
+// Smart Sync Push to Cloud
 window.syncNow=async()=>{
   try {
+    if(!data.lastUpdated) data.lastUpdated = Date.now();
     await set(ref(db, `${SYNC_PATH}/data`), data);
-    document.getElementById("syncStatus").textContent = "All devices synced in real-time ✓";
+    const syncStatusEl = document.getElementById("syncStatus");
+    if(syncStatusEl) syncStatusEl.textContent = "All devices synced in real-time ✓";
   } catch(e) {
-    document.getElementById("syncStatus").textContent = "Sync error: " + e.message;
+    const syncStatusEl = document.getElementById("syncStatus");
+    if(syncStatusEl) syncStatusEl.textContent = "Sync error: " + e.message;
   }
 };
 
@@ -653,15 +655,25 @@ function registerDevice() {
 }
 
 function setupGlobalRealtimeSync() {
-  // Realtime Data Sync Listener
+  // Smart Timestamp Comparison Sync Listener
   const dataRef = ref(db, `${SYNC_PATH}/data`);
   onValue(dataRef, (snapshot) => {
     if(snapshot.exists()) {
-      data = sanitizeData(snapshot.val());
-      saveLocal();
-      render();
+      const cloudData = sanitizeData(snapshot.val());
+      const cloudTime = cloudData.lastUpdated || 0;
+      const localTime = data.lastUpdated || 0;
+
+      // Only update local if cloud data is newer or equal
+      if (cloudTime >= localTime) {
+        data = cloudData;
+        saveLocal(false);
+        render();
+      } else {
+        // Local data is newer! Push local to cloud
+        syncNow();
+      }
     } else {
-      // If cloud is empty, upload local data immediately
+      // If cloud is completely empty, push local data immediately
       syncNow();
     }
   });
