@@ -342,12 +342,10 @@ const quotes = [
   "Focus on progress, not perfection. You're doing great! 🌿"
 ];
 
-// Helper: Haptic Vibration Feedback for Mobile
 function triggerHaptic() {
   if (navigator.vibrate) navigator.vibrate(10);
 }
 
-// Safe Helper: Convert 24-hour time (HH:MM) to 12-hour AM/PM Format
 function formatTime12(timeStr) {
   if (!timeStr) return "";
   if (timeStr.includes("AM") || timeStr.includes("PM")) return timeStr;
@@ -362,7 +360,6 @@ function formatTime12(timeStr) {
   return `${hours}:${minutes} ${ampm}`;
 }
 
-// Unified XP Adder for Habits & Tasks
 function addXP(amount, message = "") {
   if(!data.garden) data.garden = {xp:0, level:1, plants:[0,0,0]};
   data.garden.xp += amount;
@@ -450,7 +447,23 @@ function toast(msg = "Successfully completed ✨"){
 
 function confirmAction(message){return confirm(message)}
 function pct(n,d){return d?Math.round(n/d*100):0}
-function progress(){const d=day(), t=d.tasks.length, td=d.tasks.filter(x=>x.done).length, p=Object.values(d.prayers).filter(Boolean).length; const total=t+5, done=td+p; return {t,td,p,total,done,pct:pct(done,total)}}
+
+// Accurate Progress Calculation (Tasks + Prayers + Today's Scheduled Classes)
+function progress(){
+  const d = day();
+  const todayIdx = new Date().getDay();
+  const todayClasses = (d.classes || []).filter(c => c.dayOfWeek === undefined || Number(c.dayOfWeek) === todayIdx);
+  const cTotal = todayClasses.length;
+  const cDone = todayClasses.filter(c => c.attended).length;
+
+  const t = d.tasks.length;
+  const td = d.tasks.filter(x => x.done).length;
+  const p = Object.values(d.prayers).filter(Boolean).length;
+
+  const total = t + 5 + cTotal;
+  const done = td + p + cDone;
+  return { t, td, p, cTotal, cDone, total, done, pct: pct(done, total) };
+}
 
 function checkDateRollover() {
   const currentDate = todayKey();
